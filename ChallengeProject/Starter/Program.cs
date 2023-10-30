@@ -108,6 +108,7 @@ do
         //  is not required here. 
     }
 
+    Console.Clear();
     // use switch-case to process the selected menu option
     switch (menuSelection)
     {
@@ -282,19 +283,94 @@ do
                 Console.WriteLine("Press the Enter key to continue.");
                 readResult = Console.ReadLine();
             }
-
+            validEntry = false;
             break;
 
         case "3":
             // Ensure animal ages and physical descriptions are complete
-            Console.WriteLine("Challenge Project - please check back soon to see progress.");
-            Console.WriteLine("Press the Enter key to continue.");
-            readResult = Console.ReadLine();
+            int ageCount = 0; // counting if all Pets' ages have been checked for completion.
+            int descriptionCount = 0; // counting if all Pets' physical descriptions have been checked for completion.
+
+            for (int i = 0; i < maxPets; i++)
+            {
+                ageCount++;
+
+                if (ourAnimals[i, 0] != "ID #: ")
+                {
+                    if (ourAnimals[i, 2] == "Age: ?" || ourAnimals[i, 2] == "")
+                    {
+                        do
+                        {
+                            Console.WriteLine($"Enter an age for {ourAnimals[i, 0]}");
+                            readResult = Console.ReadLine();
+                            if (readResult != null && readResult != "")
+                            {
+                                animalAge = readResult;
+                                validEntry = int.TryParse(animalAge, out petAge);
+                                if (validEntry)
+                                {
+                                    Console.WriteLine($"Entry \"{petAge}\" accepted.");
+                                    ourAnimals[i, 2] = "Age: " + petAge;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Invalid input. Please use numbers only.");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input. Please use numbers only.");
+                            }
+
+                        } while (validEntry == false);
+                    }
+                }
+            }
+            
+            validEntry = false;
+            Console.WriteLine("\nPet ages have been completed. Checking pysical descriptions...\n");
+
+            for (int i = 0; i < maxPets; i++)
+            {
+                descriptionCount++;
+
+                if (ourAnimals[i, 0] != "ID #: ")
+                {
+                    if (ourAnimals[i, 4] == "Physical description: tbd"|| ourAnimals[i, 4] == "Physical description: ")
+                    {
+                        do
+                        {
+                            Console.WriteLine($"Enter a physical description for ID #: {ourAnimals[i, 0]} (size, color, breed, gender, weight, housebroken)");
+                            readResult = Console.ReadLine();
+                            if (readResult != null && readResult != "")
+                            {
+                                animalPhysicalDescription = readResult;
+                                validEntry = true;
+                                Console.WriteLine($"Entry \"{petAge}\" accepted.");
+                                ourAnimals[i, 4] = "Physical description: " + animalPhysicalDescription;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                            }
+                        } while (validEntry == false);
+                    }
+                }
+            }
+
+            if (ageCount >= maxPets && descriptionCount >= maxPets)
+            {
+                Console.WriteLine("Age and physical description fields are complete for all of our friends.");
+                Console.WriteLine("Press the Enter key to continue.");
+                readResult = Console.ReadLine();
+            }
+            validEntry = false;
             break;
 
         case "4":
             // Ensure animal nicknames and personality descriptions are complete
             Console.WriteLine("Challenge Project - please check back soon to see progress.");
+            //Console.WriteLine(ourAnimals[3, 2]);
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
@@ -312,7 +388,7 @@ do
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
-        
+
         case "7":
             // Display all cats with a specified characteristic
             Console.WriteLine("UNDER CONSTRUCTION - please check back next month to see progress.");
