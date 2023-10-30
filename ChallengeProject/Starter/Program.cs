@@ -323,11 +323,11 @@ do
                             }
 
                         } while (validEntry == false);
+                        validEntry = false;
                     }
                 }
             }
-            
-            validEntry = false;
+
             Console.WriteLine("\nPet ages have been completed. Checking pysical descriptions...\n");
 
             for (int i = 0; i < maxPets; i++)
@@ -336,11 +336,11 @@ do
 
                 if (ourAnimals[i, 0] != "ID #: ")
                 {
-                    if (ourAnimals[i, 4] == "Physical description: tbd"|| ourAnimals[i, 4] == "Physical description: ")
+                    if (ourAnimals[i, 4] == "Physical description: tbd" || ourAnimals[i, 4] == "Physical description: ")
                     {
                         do
                         {
-                            Console.WriteLine($"Enter a physical description for ID #: {ourAnimals[i, 0]} (size, color, breed, gender, weight, housebroken)");
+                            Console.WriteLine($"Enter a physical description for {ourAnimals[i, 0]} (size, color, breed, gender, weight, housebroken)");
                             readResult = Console.ReadLine();
                             if (readResult != null && readResult != "")
                             {
@@ -360,19 +360,86 @@ do
 
             if (ageCount >= maxPets && descriptionCount >= maxPets)
             {
-                Console.WriteLine("Age and physical description fields are complete for all of our friends.");
+                Console.WriteLine("\nAge and physical description fields are complete for all of our friends.");
                 Console.WriteLine("Press the Enter key to continue.");
                 readResult = Console.ReadLine();
             }
-            validEntry = false;
+
             break;
 
         case "4":
             // Ensure animal nicknames and personality descriptions are complete
-            Console.WriteLine("Challenge Project - please check back soon to see progress.");
-            //Console.WriteLine(ourAnimals[3, 2]);
-            Console.WriteLine("Press the Enter key to continue.");
-            readResult = Console.ReadLine();
+            int nicknameCount = 0; // counting if all Pets' nicknames have been checked for completion.
+            int personalityCount = 0; // counting if all Pets' personality descriptions have been checked for completion.
+            
+            for (int i = 0; i < maxPets; i++)
+            {
+                nicknameCount++;
+
+                if (ourAnimals[i, 0] != "ID #: ")
+                {
+                    if (ourAnimals[i, 3] == "Nickname: tbd" || ourAnimals[i, 3] == "Nickname: ")
+                    {
+                        do
+                        {
+                            Console.WriteLine($"Enter a nickname for {ourAnimals[i, 0]}");
+                            readResult = Console.ReadLine();
+                            if (readResult != null && readResult != "")
+                            {
+                                animalNickname = readResult;
+                                validEntry = true;
+                                Console.WriteLine($"Entry \"{animalNickname}\" accepted.");
+                                ourAnimals[i, 3] = "Nickname: " + animalNickname;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                            }
+                        } while (validEntry == false);
+                        validEntry = false;
+                    }
+                }
+            }
+
+            Console.WriteLine("\nPet nicknames have been completed. Checking personality descriptions...\n");
+
+            for (int i = 0; i < maxPets; i++)
+            {
+                personalityCount++;
+
+                if (ourAnimals[i, 0] != "ID #: ")
+                {
+                    if (ourAnimals[i, 5] == "Personality: tbd" || ourAnimals[i, 5] == "Personality: ")
+                    {
+                        do
+                        {
+                            Console.WriteLine($"Enter a personality description for {ourAnimals[i, 0]} (likes or dislikes, tricks, energy level)");
+                            readResult = Console.ReadLine();
+                            if (readResult != null && readResult != "")
+                            {
+                                animalPersonalityDescription = readResult;
+                                validEntry = true;
+                                Console.WriteLine($"Entry accepted.");
+                                ourAnimals[i, 5] = "Personality: " + animalPersonalityDescription;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                            }
+                        } while (validEntry == false);
+                        validEntry = false;
+                    }
+                }
+            }
+
+            if (nicknameCount >= maxPets && personalityCount >= maxPets)
+            {
+                Console.WriteLine("\nNickname and personality description fields are complete for all of our friends.");
+                Console.WriteLine("Press the Enter key to continue.");
+                readResult = Console.ReadLine();
+            }
+
+
             break;
 
         case "5":
